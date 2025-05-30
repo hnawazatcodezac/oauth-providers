@@ -1,4 +1,3 @@
-import { jwtDecode } from "jwt-decode";
 import { useMsal } from "@azure/msal-react";
 import { GoogleLogin } from "@react-oauth/google";
 
@@ -48,13 +47,15 @@ const MainPage = () => {
       <h2>Login Providers</h2>
       <GoogleLogin
         onSuccess={(credentialResponse) => {
-          console.log("✅ Google Login Success:");
-          const decoded = jwtDecode(credentialResponse.credential);
-          console.log("Decoded Google JWT:", decoded);
+          const id_token = credentialResponse.credential;
+          console.log("JWT (id_token):", id_token);
         }}
         onError={() => {
           console.log("❌ Google Login Failed");
         }}
+        useOneTap
+        accessType="offline"
+        prompt="consent"
       />
       <LinkedInLogin />
       <MicrosoftLoginButton />
